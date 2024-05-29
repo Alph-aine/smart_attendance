@@ -46,7 +46,8 @@ const studentSchema = new mongoose.Schema({
     images: {
         type: [String]
     }
-})
+}, {timestamps: true}
+)
 
 
 const Student = mongoose.model<IStudent>('Student', studentSchema)
