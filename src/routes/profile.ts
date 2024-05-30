@@ -7,7 +7,8 @@ import {
   updateLecturerProfile,
   updateLecturerPassword,
   getStudentByMatricNumber,
-  deleteLecturerAccount
+  deleteLecturerAccount,
+  getAllLecturers
 } from '../controllers/profileC'
 
 import isAuthenticated from '../middlewares/checkAuth'
@@ -364,6 +365,8 @@ router.get('/student/:matricNumber', isAuthenticated, getStudentByMatricNumber)
  *                   example: 'Internal Server Error'
  */
 router.get('/student', isAuthenticated, getAllStudents)
+
+router.get('/lecturer', isAuthenticated, getAllLecturers)
 
 /**
  * @swagger
