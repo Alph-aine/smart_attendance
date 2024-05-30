@@ -1,11 +1,10 @@
-import express, {type Response} from 'express'
+import express, { type Response } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerSpec } from './swagger'
 import errorHandler from './middlewares/error'
 import authRouter from './routes/auth'
-
 
 const app = express()
 
@@ -14,12 +13,14 @@ app.use(express.json())
 app.use(cookieParser())
 
 // CORS
-app.use(cors({
+app.use(
+  cors({
     credentials: true // allows cookies from the frontend
-}))
+  })
+)
 
 app.get('/', (_, res: Response) => {
-    res.send('Welcome to the smart attendance system')
+  res.send('Welcome to the smart attendance system')
 })
 
 // auth router

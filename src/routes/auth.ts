@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
-import { registerStudent, lecturerSignUp, lecturerLogIn } from '../controllers/authC'
-
+import {
+  registerStudent,
+  lecturerSignUp,
+  lecturerLogIn
+} from '../controllers/authC'
 
 const router = express.Router()
 
