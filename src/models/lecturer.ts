@@ -1,7 +1,7 @@
 // Schema for storing Lecturer's data
 import mongoose from "mongoose"
 import validator from 'validator'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import type ILecturer from "../interfaces/lecturerInterface"
 
@@ -54,7 +54,7 @@ lecturerSchema.methods.validatePassword = async function (insertedPassword: stri
 
 // generate jwt token for authentication
 lecturerSchema.methods.generateAuthToken = function (){
-    const token = jwt.sign({_id: this._id}, process.env.JWT_SECRET ?? 'secret', { expiresIn: process.env.JWT_EXPIRE ?? '2h'})
+    const token = jwt.sign({id: this._id}, process.env.JWT_SECRET ?? 'secret', { expiresIn: process.env.JWT_EXPIRE ?? '2h'})
     return token
 }
 

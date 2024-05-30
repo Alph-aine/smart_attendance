@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerSpec } from './swagger'
 import errorHandler from './middlewares/error'
+import authRouter from './routes/auth'
 
 
 const app = express()
@@ -20,6 +21,9 @@ app.use(cors({
 app.get('/', (_, res: Response) => {
     res.send('Welcome to the smart attendance system')
 })
+
+// auth router
+app.use(authRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.get('/api-docs.json', (req, res) => {
