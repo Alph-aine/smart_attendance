@@ -2,6 +2,7 @@
 import mongoose from "mongoose"
 import validator from 'validator'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 import type ILecturer from "../interfaces/lecturerInterface"
 
 const lecturerSchema = new mongoose.Schema({
@@ -49,6 +50,12 @@ lecturerSchema.pre('save', async function (this: ILecturer, next){
 // validate inserted password against hashed password
 lecturerSchema.methods.validatePassword = async function (insertedPassword: string) {
     return await bcrypt.compare(insertedPassword, this.password as string)
+}
+
+// generate jwt token for authentication
+lecturerSchema.methods.generateAuthToken = function (){
+    const token = jwt.sign({_id: this._id}, process.env.JWT_SECRET ?? 'secret', { expiresIn: process.env.JWT_EXPIRE ?? '2h'})
+    return token
 }
 
 const Lecturer = mongoose.model<ILecturer>('Lecturer', lecturerSchema)
