@@ -21,7 +21,6 @@ export const getAllLecturers = asyncError(async (req: any, res: any) => {
   })
 })
 
-
 // get lecturer by id
 export const getLecturerById = asyncError(
   async (req: any, res: any, next: any) => {

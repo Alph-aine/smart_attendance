@@ -5,6 +5,9 @@ export default interface ILecturer extends Document {
   lastName?: string
   email?: string
   password?: string
+  otp: string
+  otpExpire: Date
   validatePassword: (password: string) => boolean
   generateAuthToken: () => string
+  generateOtp: () => string
 }

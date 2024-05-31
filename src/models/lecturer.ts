@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import randomstring from 'randomstring'
 import type ILecturer from '../interfaces/lecturerInterface'
 
 const lecturerSchema = new mongoose.Schema(
@@ -35,7 +36,13 @@ const lecturerSchema = new mongoose.Schema(
       minlength: 8,
       maxlength: 1024,
       select: false
-    }
+    },
+    otp: {
+      type: String,
+      trim: true,
+      default: null
+    },
+    otpExpire: Date
   },
   { timestamps: true }
 )
@@ -61,6 +68,18 @@ lecturerSchema.methods.generateAuthToken = function () {
     expiresIn: process.env.JWT_EXPIRE ?? '2h'
   })
   return token
+}
+
+// generate otp
+lecturerSchema.methods.generateOtp = function () {
+  const otp = randomstring.generate({
+    length: 6,
+    charset: 'numeric'
+  })
+  this.otp = otp
+  this.otpExpire = Date.now() + 10 * 60 * 1000 // 10 minutes
+
+  return otp
 }
 
 const Lecturer = mongoose.model<ILecturer>('Lecturer', lecturerSchema)

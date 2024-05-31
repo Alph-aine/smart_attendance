@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload }from 'jsonwebtoken'
 import ErrorHandler from '../utils/errorHandler'
 import Lecturer from '../models/lecturer'
 import asyncError from '../middlewares/asyncError'
@@ -15,8 +15,8 @@ const isAuthenticated = asyncError(async (req: any, res: any, next: any) => {
     const decoded = jwt.verify(
       token as string,
       process.env.JWT_SECRET ?? 'secret'
-    )
-    const lecturer = await Lecturer.findById(decoded?.id)
+    ) as JwtPayload
+    const lecturer = await Lecturer.findById(decoded?._id)
 
     // attach user to request object
     req.user = lecturer

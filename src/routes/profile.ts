@@ -62,7 +62,7 @@ const router = express.Router()
  *                   type: string
  *                   example: 'Internal Server Error'
  */
-router.get('/lecturer/id/:id',  isAuthenticated, getLecturerById)
+router.get('/lecturer/id/:id', isAuthenticated, getLecturerById)
 
 /**
  * @swagger
@@ -277,6 +277,8 @@ router.put('/lecturer/password/update', isAuthenticated, updateLecturerPassword)
  *   get:
  *     summary: Retrieve a student by matriculation number
  *     description: Fetches a student's details based on their matriculation number.
+ *     tags:
+ *        - Student
  *     parameters:
  *       - in: path
  *         name: matricNumber
@@ -326,6 +328,8 @@ router.get('/student/:matricNumber', isAuthenticated, getStudentByMatricNumber)
  *   get:
  *     summary: Retrieve all students
  *     description: Fetches the details of all students.
+ *     tags:
+ *        - Student
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -365,6 +369,36 @@ router.get('/student/:matricNumber', isAuthenticated, getStudentByMatricNumber)
  *                   example: 'Internal Server Error'
  */
 router.get('/student', isAuthenticated, getAllStudents)
+/**
+ * @swagger
+ * /lecturer:
+ *   get:
+ *     summary: Retrieves all lecturers
+ *     description: This endpoint returns a list of all lecturers available in the system.
+ *     tags:
+ *       - Lecturers
+ *     responses:
+ *       200:
+ *         description: A list of all lecturers.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 lecturers:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Lecturer'
+ *       500:
+ *         description: An internal server error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 
 router.get('/lecturer', isAuthenticated, getAllLecturers)
 
@@ -405,3 +439,5 @@ router.get('/lecturer', isAuthenticated, getAllLecturers)
  *               $ref: '#/components/schemas/Error'
  */
 router.delete('/lecturer/id/:id', isAuthenticated, deleteLecturerAccount)
+
+export default router
