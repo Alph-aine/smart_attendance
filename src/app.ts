@@ -6,6 +6,7 @@ import { swaggerSpec } from './swagger'
 import errorHandler from './middlewares/error'
 import authRouter from './routes/auth'
 import profileRouter from './routes/profile'
+import courseRouter from './routes/course'
 
 const app = express()
 
@@ -29,6 +30,9 @@ app.use(authRouter)
 
 // profiles
 app.use(profileRouter)
+
+// courses
+app.use(courseRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.get('/api-docs.json', (req, res) => {

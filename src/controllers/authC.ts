@@ -102,20 +102,23 @@ export const lecturerLogIn = asyncError(async (req, res, next) => {
 })
 
 // forgot Password
-export const forgotPassword = asyncError(async(req, res, next) => {
-  const lecturer = await Lecturer.findOne({ email: req.body.email})
-  if (lecturer === null) { next(new ErrorHandler('Lecturer not found', 404)); return; }
-  
+export const forgotPassword = asyncError(async (req, res, next) => {
+  const lecturer = await Lecturer.findOne({ email: req.body.email })
+  if (lecturer === null) {
+    next(new ErrorHandler('Lecturer not found', 404))
+    return
+  }
+
   // generate otp
   const otp = lecturer.generateOtp()
   await lecturer.save({ validateBeforeSave: false })
-  try{
+  try {
     await sendEmail({
       email: lecturer.email,
       subject: 'Attendance System - Password Recovery',
       message: `Your OTP is :<strong>${otp}</strong> <br> Do not share`
     })
-    res.status(200).json({success: true, message: 'OTP sent successfully'})
+    res.status(200).json({ success: true, message: 'OTP sent successfully' })
   } catch (err: Error | any) {
     lecturer.otp = ''
     lecturer.otpExpire = new Date()
@@ -126,14 +129,19 @@ export const forgotPassword = asyncError(async(req, res, next) => {
 })
 
 // reset password and verify otp
-export const resetPassword = asyncError(async(req, res, next) => {
+export const resetPassword = asyncError(async (req, res, next) => {
   const { password, confirmPassword, otp } = req.body
   const lecturer = await Lecturer.findOne({
     otp,
-    otpExpire: { $gt: Date.now()}
+    otpExpire: { $gt: Date.now() }
   })
-  if (lecturer === null) { next(new ErrorHandler('Invalid OTP', 400));  }
-  if (password !== confirmPassword) { next(new ErrorHandler('Password do not match', 400)); return; }
+  if (lecturer === null) {
+    next(new ErrorHandler('Invalid OTP', 400))
+  }
+  if (password !== confirmPassword) {
+    next(new ErrorHandler('Password do not match', 400))
+    return
+  }
 
   // setup new password and clear otp
   if (lecturer !== null) {

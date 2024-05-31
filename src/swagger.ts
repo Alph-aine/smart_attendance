@@ -10,6 +10,10 @@ const swaggerOptions: Options = {
       version: '1.0.0'
     },
     servers: [
+      {
+        url: 'https://smart-attendance-1h30.onrender.com',
+        description: 'Production server'
+      },
       { url: 'http://localhost:3000', description: 'Development server' }
     ]
   },

@@ -1,4 +1,4 @@
-import jwt, { type JwtPayload }from 'jsonwebtoken'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 import ErrorHandler from '../utils/errorHandler'
 import Lecturer from '../models/lecturer'
 import asyncError from '../middlewares/asyncError'
